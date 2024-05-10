@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scroll-Based Navigation</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+  }
+
+  .section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  #section1 {
+    background-color: #f00; /* Red */
+  }
+
+  #section2 {
+    background-color: #0f0; /* Green */
+    opacity: 0;
+  }
+
+  #section3 {
+    background-color: #00f; /* Blue */
+    opacity: 0;
+  }
+</style>
+
+</head>
+<body>
+<div id="section1" class="section">
+    <p>
+        Military occupation, also called belligerent occupation or simply occupation, is the temporary control exerted by a ruling power's military apparatus over a sovereign territory that is outside of the legal boundaries of the ruling power's own sovereign territory.[1][2][3][4] The controlled territory is then known as the occupied territory, with the ruling power being the occupant.[5] Occupation is distinguished from annexation and colonialism on the basis that it is a power structure that the ruling power intends to keep in place only temporarily.[4][6] In many cases, an occupant may establish a military government to facilitate the administration of the occupied territory, though this is not a necessary precondition for occupation to take place.[7]
+
+    The rules of occupation are delineated in various international agreements—primarily the Hague Convention of 1907, the Geneva Conventions, and by long-established state practice. The relevant international conventions, the International Committee of the Red Cross, and various treaties by military scholars provide guidelines on such topics as rights and duties of the occupying power, protection of civilians, treatment of prisoners of war, coordination of relief efforts, issuance of travel documents, property rights of the populace, handling of cultural and art objects, management of refugees, and other concerns that are highest in importance both before and after the cessation of hostilities in an armed conflict. A country that engages in a military occupation and violates internationally agreed-upon norms runs the risk of censure, criticism, or condemnation. In the contemporary era, the practices of occupations have largely become a part of customary international law, and form a part of the law of war.
+
+    Since World War II and the establishment of the United Nations, it has been common practice in international law for occupied territory to continue to be widely recognized as occupied in cases where the occupant attempts to alter—with or without support or recognition from other powers—the expected temporary duration of the territory's established power structure, namely by making it permanent through annexation (formal or otherwise) and not recognizing itself as an occupant. Additionally, the question of whether a territory is occupied or not becomes especially controversial if two or more powers disagree with each other on that territory's status; such disputes often serve as the basis for armed conflicts in and of themselves.
+    </p>
+</div>
+<div id="section2" class="section">
+    <p>
+        Nationals of an enemy state not a signatory or acceded to GCIV are not protected by it. Neutral citizens who are in the home territory of a belligerent nation if their country of origin has diplomatic ties or elsewhere outside occupied territory are not protected.[nb 1] Nationals of a co-belligerent (allied) state which holds diplomatic ties with a belligerent nation are excluded from protection in both locations.[11]
+
+On whether the definition of military occupation applies to anywhere else, the 2023 United States Department of Defense (DOD)'s Law of War Manual states "the law of belligerent occupation generally does not apply to (1) mere invasion; (2) liberation of friendly territory; (3) non-international armed conflict; or (4) post-war situations (except for certain provisions of the GC [IV])." The DOD's statement is consistent with the definitions provided by Article 42 of the 1907 Fourth Hague Convention and Article 4 of the Fourth Geneva Convention.[16]
+
+Article 6 of GCIV restricts the length of time that most of the convention applies:
+
+The present Convention shall apply from the outset of any conflict or occupation mentioned in Article 2.
+
+In the territory of Parties to the conflict, the application of the present Convention shall cease on the general close of military operations.
+
+In the case of occupied territory, the application of the present Convention shall cease one year after the general close of military operations; however, the Occupying Power shall be bound, for the duration of the occupation, to the extent that such Power exercises the functions of government in such territory, by the provisions of the following Articles of the present Convention: 1 to 12, 27, 29 to 34, 47, 49, 51, 52, 53, 59, 61 to 77, 143.
+
+GCIV emphasised an important change in international law. The United Nations Charter (June 26, 1945) had prohibited war of aggression (See articles 1.1, 2.3, 2.4) and GCIV Article 47, the first paragraph in Section III: Occupied territories, restricted the territorial gains which could be made through war by stating:
+
+Protected persons who are in occupied territory shall not be deprived, in any case or in any manner whatsoever, of the benefits of the present Convention by any change introduced, as the result of the occupation of a territory, into the institutions or government of the said territory, nor by any agreement concluded between the authorities of the occupied territories and the Occupying Power, nor by any annexation by the latter of the whole or part of the occupied territory.
+    </p>
+</div>
+<div id="section3" class="section">
+    <p>
+        Article 42 under Section III of the 1907 Fourth Hague Convention specifies that a "[t]erritory is considered occupied when it is actually placed under the authority of the hostile army." This definition does not rely on a subjective perception, but rather on the "territory's de facto submission to the authority" of the occupant.[17] Article 2 of the Geneva Conventions indicates that the definition applies to "all cases of partial or total occupation of the territory of a High Contracting party", even if no armed resistance is encountered.[18] The form of administration by which an occupying power exercises government authority over occupied territory is called military government.
+
+There does not have to be a formal announcement of the beginning of a military government, nor is there any requirement of a specific number of people to be in place, for an occupation to commence. Birkhimer writes:
+
+No proclamation of part of the victorious commander is necessary to the lawful inauguration and enforcement of military government. That government results from the fact that the former sovereignty is ousted, and the opposing army now has control. Yet the issuing such proclamation is useful as publishing to all living in the district occupied those rules of conduct which will govern the conqueror in the exercise of his authority. Wellington, indeed, as previously mentioned, said that the commander is bound to lay down distinctly the rules according to which his will is to be carried out. But the laws of war do not imperatively require this, and in very many instances it is not done. When it is not, the mere fact that the country is militarily occupied by the enemy is deemed sufficient notification to all concerned that the regular has been supplanted by a military government. (p. 61)
+    </p>
+</div>
+
+<script>
+  let currentSection = 1;
+  let isScrolling = false;
+
+  window.addEventListener('wheel', function(e) {
+    if (!isScrolling) {
+      isScrolling = true;
+      setTimeout(function() {
+        if (e.deltaY > 0 && currentSection < 3) {
+          currentSection++;
+        } else if (e.deltaY < 0 && currentSection > 1) {
+          currentSection--;
+        }
+        updateSections();
+        isScrolling = false;
+      }, 500); // Delay in milliseconds
+    }
+  });
+
+  function updateSections() {
+    for (let i = 1; i <= 3; i++) {
+      let section = document.getElementById('section' + i);
+      if (i === currentSection) {
+        section.style.opacity = 1;
+      } else {
+        section.style.opacity = 0;
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+/* Custom props */
+:root {
+    --transition-250-ease-in: 250ms ease-in;
+}
+
+/* Reset */
+*::after, 
+*::before {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+body {
+    background-color: #07072c;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+/* scroll container is the HTML element */
+html {
+    scroll-snap-type: x mandatory;
+    cursor: url(./images/cursor.cur), pointer;
+}
+
+.gallery {
+    height: 95vh;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100vw;
+}
+
+section {
+    display: grid;
+    place-content: center;
+    scroll-snap-align: center;
+}
+
+.card {
+    width: 300px;
+    aspect-ratio: 9 / 16;
+    cursor: pointer;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    animation: swoosh linear;
+    animation-timeline: view(inline);
+    
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+}
+
+ .card > * {
+    position: absolute;
+    border-radius: 20px;
+}
+
+.tardis {
+    box-shadow: 5px 5px 15px 5px rgb(1, 0, 7);
+    opacity: 1;
+    rotate: none;
+    transition: all var(--transition-250-ease-in);
+}
+
+.card.active .tardis {
+    opacity: .25;
+    rotate: x 30deg;
+    transform: translateY(-70px);
+}
+
+.doctor, 
+.title {
+    opacity: 0;
+    transition: all var(--transition-250-ease-in);
+}
+
+.card.active .doctor,
+.card.active .title {
+    opacity: 1;
+    translate: 0 0 120px;
+    transform: translateY(-70px);
+}
+
+.title {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size:1.75rem;
+    text-align: center;
+    color: white;
+    inset: 90% 0%;
+}
+
+@keyframes swoosh {
+    0% {
+        scale: .5;
+        rotate: 1 1 1 95deg;
+    }
+    50% {
+        scale: 1;
+        rotate: none;
+    }
+    100% {
+        scale: .5;
+        rotate: 1 1 1 -95deg;
+
+    }
+}
+
+
+
+
