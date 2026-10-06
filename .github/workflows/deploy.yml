@@ -1,0 +1,98 @@
+# Publishes the site to the `gh-pages` branch:
+#   main            -> https://vishalkhopkar.github.io/
+#   any other branch -> https://vishalkhopkar.github.io/<branch_name>/   (for review before merging)
+# Pages must be set to deploy from the `gh-pages` branch (root).
+name: Deploy
+
+on:
+  push:
+  delete:
+
+permissions:
+  contents: write
+
+# One deploy at a time, so concurrent pushes never race on gh-pages.
+concurrency:
+  group: deploy-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # `delete` fires for tags too; only handle branches.
+    if: github.event_name == 'push' || github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          path: src
+
+      - name: Check out main (to seed or refresh the root site)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-src
+
+      - name: Prepare gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$url" gh-pages >/dev/null 2>&1; then
+            git clone --quiet --branch gh-pages "$url" pages
+          else
+            git init --quiet pages
+            git -C pages checkout --quiet --orphan gh-pages
+            git -C pages remote add origin "$url"
+          fi
+          touch pages/.nojekyll pages/.previews
+
+      - name: Update site
+        env:
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.event_name == 'delete' && github.event.ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          cd pages
+          copy_site() { # $1 = source dir, $2 = destination dir
+            mkdir -p "$2"
+            rsync -a --delete --exclude='.git' --exclude='.github' --exclude='README.md' "$1"/ "$2"/
+          }
+
+          if [ "$EVENT" = "delete" ]; then
+            if [ "$BRANCH" != "main" ]; then
+              rm -rf "./$BRANCH"
+              grep -vxF "$BRANCH" .previews > .previews.tmp || true
+              mv .previews.tmp .previews
+            fi
+          elif [ "$BRANCH" = "main" ]; then
+            # Replace the root site but keep previews, metadata and git data.
+            keep=(.git .nojekyll .previews)
+            while IFS= read -r p; do [ -n "$p" ] && keep+=("${p%%/*}"); done < .previews
+            for entry in $(ls -A); do
+              skip=0
+              for k in "${keep[@]}"; do [ "$entry" = "$k" ] && skip=1; done
+              [ $skip -eq 0 ] && rm -rf "./$entry"
+            done
+            rsync -a --exclude='.git' --exclude='.github' --exclude='README.md' ../src/ ./
+          else
+            # Seed the root from main the first time, so switching Pages over never shows a blank site.
+            [ -f index.html ] || rsync -a --exclude='.git' --exclude='.github' --exclude='README.md' ../main-src/ ./
+            copy_site ../src "./$BRANCH"
+            grep -qxF "$BRANCH" .previews || echo "$BRANCH" >> .previews
+          fi
+
+      - name: Publish
+        env:
+          BRANCH: ${{ github.event_name == 'delete' && github.event.ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing to publish."; exit 0; fi
+          git commit --quiet -m "Deploy ${BRANCH} (${GITHUB_SHA::7})"
+          git push origin gh-pages
