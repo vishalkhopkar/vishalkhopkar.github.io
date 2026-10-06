@@ -84,6 +84,7 @@ a { color: inherit; }
   width: 100%; height: 100%;
   object-fit: cover;
   border-radius: 132px 132px 4px 4px;
+  object-position: top center;
   background: var(--kagaz-deep);
 }
 .portrait__tag {
@@ -104,9 +105,20 @@ a { color: inherit; }
 }
 .role { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--haldi); }
 .place { margin: .1rem 0 0; font-size: .9rem; color: #c9c3b0; letter-spacing: .03em; }
-.profile-link { margin: .5rem 0 0; font-family: var(--mono); font-size: .8rem; }
-.profile-link a { color: #f8efdc; text-decoration-color: var(--kesari); text-underline-offset: 3px; }
-.profile-link a:hover { color: var(--haldi); }
+.social { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .7rem; }
+.social__btn {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .5rem 1.1rem .5rem .85rem;
+  font-weight: 600; font-size: .95rem; text-decoration: none;
+  color: #f8efdc; background: transparent;
+  border: 2px solid #f8efdc; border-radius: 999px;
+  transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+}
+.social__btn svg { width: 1.3rem; height: 1.3rem; fill: currentColor; }
+.social__btn:hover, .social__btn:focus-visible { transform: translateY(-2px); }
+.social__btn--github:hover, .social__btn--github:focus-visible { background: #fff; color: #181717; border-color: #fff; }
+.social__btn--linkedin:hover, .social__btn--linkedin:focus-visible { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+.social__btn:focus-visible { outline: 3px solid var(--haldi); outline-offset: 3px; }
 .tagline {
   margin: 1.6rem 0 0; max-width: 34em;
   padding-left: 1.1rem;
@@ -146,7 +158,7 @@ a { color: inherit; }
 }
 .card:hover { transform: translate(-3px, -3px); box-shadow: 11px 11px 0 var(--kesari); }
 .card__art { border-bottom: 2px solid var(--neel); background: var(--neel); overflow: hidden; }
-.card__art img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .4s ease; }
+.card__art img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .4s ease; }
 .card:hover .card__art img { transform: scale(1.04); }
 .card__body { padding: 1.2rem 1.4rem 1.4rem; position: relative; }
 .card__no { position: absolute; top: 1rem; right: 1.2rem; font-family: var(--mono); font-size: .8rem; color: var(--muted); }
