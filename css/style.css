@@ -88,14 +88,6 @@ a { color: inherit; }
   object-position: top center;
   background: var(--kagaz-deep);
 }
-.portrait__tag {
-  position: absolute; right: -14px; bottom: 18px;
-  background: var(--kagaz); color: var(--sindoor);
-  font-family: var(--display); font-size: 1.15rem;
-  padding: .15rem .8rem .25rem;
-  border: 2px solid var(--neel);
-  transform: rotate(-4deg);
-}
 
 .eyebrow { font-family: var(--mono); font-size: .85rem; color: var(--haldi); margin: 0 0 .5rem; letter-spacing: .04em; }
 .name {
@@ -189,7 +181,6 @@ a { color: inherit; }
   .hero__inner { grid-template-columns: 1fr; gap: 1.8rem; padding: 2rem 0 3.2rem; }
   .portrait__arch { width: min(220px, 62vw); border-radius: 110px 110px 10px 10px; box-shadow: 7px 7px 0 rgba(255,255,255,.14); }
   .portrait__arch img { border-radius: 102px 102px 4px 4px; }
-  .portrait__tag { right: -10px; font-size: 1rem; }
   .intro { text-align: center; }
   .social { justify-content: center; }
   .tagline { text-align: left; font-size: 1.08rem; margin-top: 1.3rem; }
