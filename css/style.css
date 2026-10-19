@@ -86,6 +86,7 @@ a { color: inherit; }
   object-fit: cover;
   border-radius: 132px 132px 4px 4px;
   object-position: top center;
+  image-rendering: auto;
   background: var(--kagaz-deep);
 }
 
